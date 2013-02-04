@@ -1,0 +1,15 @@
+name: AdminScreenReplaceLink
+id  : AdminScreenReplaceLink
+key:  adminscreenreplacelink
+version: 0.1
+author_link: http://alfasado.net/
+author_name: Alfasado Inc.
+l10n_class: AdminScreenReplaceLink::L10N
+description: <__trans phrase="It replace link in admin screen.">
+config_template: config.tmpl
+blog_config_template: config.tmpl
+callbacks:
+    MT::App::CMS::template_source.footer: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_footer
+settings:
+    adminscreenreplacelink_search:
+    adminscreenreplacelink_replace:
