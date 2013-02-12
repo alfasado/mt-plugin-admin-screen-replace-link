@@ -1,7 +1,7 @@
 name: AdminScreenReplaceLink
 id  : AdminScreenReplaceLink
 key:  adminscreenreplacelink
-version: 0.1
+version: 0.2
 author_link: http://alfasado.net/
 author_name: Alfasado Inc.
 l10n_class: AdminScreenReplaceLink::L10N
@@ -10,6 +10,8 @@ config_template: config.tmpl
 blog_config_template: config.tmpl
 callbacks:
     MT::App::CMS::template_source.footer: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_footer
+    cms_filtered_list_param.entry: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_list_entry
+    cms_filtered_list_param.page: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_list_entry
 settings:
     adminscreenreplacelink_search:
     adminscreenreplacelink_replace:
