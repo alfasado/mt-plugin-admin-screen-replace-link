@@ -26,6 +26,60 @@ sub _list_entry {
     %$res->{ objects } = $replace;
 }
 
+sub _list_asset {
+    my ( $cb, $app, $res, $objs ) = @_;
+    my $assets = $res->{ objects };
+    my $replace;
+    for my $asset ( @$assets ) {
+        my $new;
+        for my $col( @$asset ) {
+            if ( $col =~ /__mode=view&_type=asset&blog_id=([0-9]{1,})/ ) {
+                my ( $search, $replace ) = __get_config( $app, $1 );
+                if ( $search && $replace ) {
+                    $search  = MT::Util::encode_html( $search );
+                    $replace = MT::Util::encode_html( $replace );
+                    $search = quotemeta( $search );
+                    $col =~ s/$search/$replace/g;
+                }
+            }
+            push( @$new, $col );
+        }
+        push ( @$replace, $new );
+    }
+    %$res->{ objects } = $replace;
+}
+
+sub _list_campaign {
+    my ( $cb, $app, $res, $objs ) = @_;
+    my $campaigns = $res->{ objects };
+    my $replace;
+    for my $campaign ( @$campaigns ) {
+        my $new;
+        my $blog_id;
+        for my $col( @$campaign ) {
+            if ( $col =~ /<img/ ) {
+                if ( $col =~ /&blog_id=([0-9]{1,})/ ) {
+                    $blog_id = $1;
+                }
+            }
+        }
+        for my $col( @$campaign ) {
+            if ( $col =~ /<a/ ) {
+                my ( $search, $replace ) = __get_config( $app, $blog_id );
+                if ( $search && $replace ) {
+                    $search  = MT::Util::encode_html( $search );
+                    $replace = MT::Util::encode_html( $replace );
+                    $search = quotemeta( $search );
+                    $col =~ s/$search/$replace/g;
+                }
+            }
+            push( @$new, $col );
+        }
+        push ( @$replace, $new );
+    }
+    %$res->{ objects } = $replace;
+}
+
 sub _footer {
     my ( $cb, $app, $tmpl ) = @_;
     my ( $search, $replace ) = __get_config( $app );
@@ -42,6 +96,10 @@ var link = this.href;
 if (! link.match( '<mt:var name="script_url" escape="js">' ) ) {
     this.href = link.replace( '${search}', '${replace}' );
 }})
+jQuery('img').each(function(){
+var src = this.src;
+this.src = src.replace( '${search}', '${replace}' );
+})
 });
 </script>
 MTML
