@@ -23,7 +23,7 @@ sub _list_entry {
         }
         push ( @$replace, $new );
     }
-    %$res->{ objects } = $replace;
+    $res->{ objects } = $replace;
 }
 
 sub _list_asset {
@@ -46,7 +46,7 @@ sub _list_asset {
         }
         push ( @$replace, $new );
     }
-    %$res->{ objects } = $replace;
+    $res->{ objects } = $replace;
 }
 
 sub _list_campaign {
@@ -77,7 +77,7 @@ sub _list_campaign {
         }
         push ( @$replace, $new );
     }
-    %$res->{ objects } = $replace;
+    $res->{ objects } = $replace;
 }
 
 sub _footer {
