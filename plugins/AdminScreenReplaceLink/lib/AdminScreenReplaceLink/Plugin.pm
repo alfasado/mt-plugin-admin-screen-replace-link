@@ -1,6 +1,26 @@
 package AdminScreenReplaceLink::Plugin;
 use strict;
 
+sub _asset_list {
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    my $object_loop = $param->{ object_loop };
+    my @new_loop;
+    for my $obj ( @$object_loop ) {
+        for my $key ( keys( %$obj ) ) {
+            my $blog_id = $obj->{ blog_id };
+            if ( ( $key eq 'metadata_json' ) || ( $key =~ /url$/ ) ) {
+                my ( $search, $replace ) = __get_config( $app, $blog_id );
+                $search = quotemeta( $search );
+                my $col = $obj->{ $key };
+                $col =~ s/$search/$replace/g;
+                $obj->{ $key } = $col;
+            }
+        }
+        push ( @new_loop, $obj );
+    }
+    $param->{ object_loop } = \@new_loop;
+}
+
 sub _list_entry {
     my ( $cb, $app, $res, $objs ) = @_;
     my $entries = $res->{ objects };
