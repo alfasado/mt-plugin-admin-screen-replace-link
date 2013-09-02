@@ -1,6 +1,17 @@
 package AdminScreenReplaceLink::Plugin;
 use strict;
 
+sub _preview_strip {
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    my $preview_url = $param->{ preview_url };
+    my ( $search, $replace ) = __get_config( $app, $app->param( 'blog_id' ) );
+    if ( $search && $replace ) {
+        $search = quotemeta( $search );
+        $preview_url =~ s/$search/$replace/;
+        $param->{ preview_url } = $preview_url;
+    }
+}
+
 sub _asset_list {
     my ( $cb, $app, $param, $tmpl ) = @_;
     my $object_loop = $param->{ object_loop };
