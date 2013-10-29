@@ -1,11 +1,56 @@
 package AdminScreenReplaceLink::Plugin;
 use strict;
+use warnings;
+
+sub _cms_filtered_list_param {
+    my ( $cb, $app, $res, $objs ) = @_;
+    my $objects = $res->{ objects };
+    my $new_objects;
+    for my $col ( @$objects ) {
+        my $data = @$col[ 1 ];
+        if ( $data =~ m/&blog_id=([0-9]{1,})&/ ) {
+            my $blog_id = $1;
+            my ( $search, $replace ) = __get_config( $app, $app->param( 'blog_id' ) );
+            if ( $search && $replace ) {
+                $search = '"' . $search;
+                $replace = '"' . $replace;
+                $search = quotemeta( $search );
+                $data =~ s/$search/$replace/;
+                @$col[ 1 ] = $data;
+                push ( @$new_objects, $col );
+            }
+        }
+    }
+    $res->{ objects } = $new_objects;
+}
+
+sub _replace_blog_url {
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    my $blog_url = $param->{ blog_url };
+    my ( $search, $replace ) = __get_config( $app, $app->param( 'blog_id' ) );
+    if ( $search && $replace && $blog_url ) {
+        $search = quotemeta( $search );
+        $blog_url =~ s/$search/$replace/;
+        $param->{ blog_url } = $blog_url;
+    }
+}
+
+sub _replace_entry_permalink {
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    my $entry_permalink = $param->{ entry_permalink };
+    my ( $search, $replace ) = __get_config( $app, $app->param( 'blog_id' ) );
+    if ( $search && $replace && $entry_permalink ) {
+        $search = quotemeta( $search );
+        $entry_permalink =~ s/$search/$replace/;
+        $param->{ entry_permalink } = $entry_permalink;
+    }
+}
 
 sub _preview_strip {
     my ( $cb, $app, $param, $tmpl ) = @_;
     my $preview_url = $param->{ preview_url };
     my ( $search, $replace ) = __get_config( $app, $app->param( 'blog_id' ) );
-    if ( $search && $replace ) {
+    if ( $search && $replace && $preview_url ) {
         $search = quotemeta( $search );
         $preview_url =~ s/$search/$replace/;
         $param->{ preview_url } = $preview_url;
