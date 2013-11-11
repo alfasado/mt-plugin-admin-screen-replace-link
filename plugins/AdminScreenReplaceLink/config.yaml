@@ -4,8 +4,8 @@ key:  adminscreenreplacelink
 version: 0.7
 author_link: http://alfasado.net/
 author_name: Alfasado Inc.
-config_link: https://raw.github.com/alfasado/mt-plugin-admin-screen-replace-link/master/plugins/AdminScreenReplaceLink/config.yaml
-archive_link: https://github.com/alfasado/mt-plugin-admin-screen-replace-link/archive/master.zip
+config_uri: https://raw.github.com/alfasado/mt-plugin-admin-screen-replace-link/master/plugins/AdminScreenReplaceLink/config.yaml
+archive_uri: https://github.com/alfasado/mt-plugin-admin-screen-replace-link/archive/master.zip
 l10n_class: AdminScreenReplaceLink::L10N
 description: <__trans phrase="It replace link in admin screen.">
 config_template: config.tmpl
