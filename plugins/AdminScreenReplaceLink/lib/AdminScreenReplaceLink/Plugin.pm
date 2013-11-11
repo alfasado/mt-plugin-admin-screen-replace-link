@@ -17,9 +17,9 @@ sub _cms_filtered_list_param {
                 $search = quotemeta( $search );
                 $data =~ s/$search/$replace/;
                 @$col[ 1 ] = $data;
-                push ( @$new_objects, $col );
             }
         }
+        push ( @$new_objects, $col );
     }
     $res->{ objects } = $new_objects;
 }
