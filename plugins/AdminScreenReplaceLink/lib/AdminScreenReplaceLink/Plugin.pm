@@ -5,6 +5,9 @@ use warnings;
 sub _cms_filtered_list_param {
     my ( $cb, $app, $res, $objs ) = @_;
     my $objects = $res->{ objects };
+    if (! @$objects ) {
+        return;
+    }
     my $new_objects;
     for my $col ( @$objects ) {
         my $data = @$col[ 1 ];
