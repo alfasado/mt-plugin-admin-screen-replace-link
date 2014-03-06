@@ -1,7 +1,7 @@
 name: AdminScreenReplaceLink
 id  : AdminScreenReplaceLink
 key:  adminscreenreplacelink
-version: 0.7
+version: 0.8
 author_link: http://alfasado.net/
 author_name: Alfasado Inc.
 config_uri: https://raw.github.com/alfasado/mt-plugin-admin-screen-replace-link/master/plugins/AdminScreenReplaceLink/config.yaml
