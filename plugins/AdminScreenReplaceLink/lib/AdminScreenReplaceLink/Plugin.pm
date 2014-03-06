@@ -83,6 +83,9 @@ sub _asset_list {
 sub _list_entry {
     my ( $cb, $app, $res, $objs ) = @_;
     my $entries = $res->{ objects };
+    if (! @$entries ) {
+        return;
+    }
     my $replace;
     for my $entry ( @$entries ) {
         my $new;
@@ -108,6 +111,9 @@ sub _list_entry {
 sub _list_asset {
     my ( $cb, $app, $res, $objs ) = @_;
     my $assets = $res->{ objects };
+    if (! @$assets ) {
+        return;
+    }
     my $replace;
     for my $asset ( @$assets ) {
         my $new;
@@ -131,6 +137,9 @@ sub _list_asset {
 sub _list_campaign {
     my ( $cb, $app, $res, $objs ) = @_;
     my $campaigns = $res->{ objects };
+    if (! @$campaigns ) {
+        return;
+    }
     my $replace;
     for my $campaign ( @$campaigns ) {
         my $new;
