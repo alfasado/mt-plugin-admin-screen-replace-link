@@ -118,7 +118,7 @@ sub _list_asset {
     for my $asset ( @$assets ) {
         my $new;
         for my $col( @$asset ) {
-            if ( $col =~ /__mode=view&_type=asset&blog_id=([0-9]{1,})/ ) {
+            if ( $col =~ /__mode=view.*?&_type=asset.*?&blog_id=([0-9]{1,})/ || $col =~ /__mode=view.*?&blog_id=([0-9]{1,}).*?&_type=asset/ ) {
                 my ( $search, $replace ) = __get_config( $app, $1 );
                 if ( $search && $replace ) {
                     $search  = MT::Util::encode_html( $search );
