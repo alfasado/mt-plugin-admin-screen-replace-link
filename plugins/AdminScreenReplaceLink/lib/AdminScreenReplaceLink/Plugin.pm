@@ -80,6 +80,20 @@ sub _asset_list {
     $param->{ object_loop } = \@new_loop;
 }
 
+sub _asset_upload {
+    my ( $cb, $app, $tmpl_ref, $param, $tmpl ) = @_;
+    my $blog_id = $app->blog->id;
+    my ( $search, $replace ) = __get_config( $app, $blog_id );
+    $search  = MT::Util::encode_js( $search );
+    $replace = MT::Util::encode_js( $replace );
+    my $js = <<JAVASCRIPT;
+    url = url.replace( '${search}', '${replace}' );
+JAVASCRIPT
+    my $pointer = 'this.setThumbnail = function(url, fname, id, msg) {';
+    $$tmpl_ref =~ s!\Q$pointer\E!$pointer\n$js!;
+    return $$tmpl_ref;
+}
+
 sub _list_entry {
     my ( $cb, $app, $res, $objs ) = @_;
     my $entries = $res->{ objects };
