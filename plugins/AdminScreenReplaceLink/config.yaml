@@ -1,8 +1,8 @@
 name: AdminScreenReplaceLink
 id  : AdminScreenReplaceLink
 key:  adminscreenreplacelink
-version: 0.8
-author_link: http://alfasado.net/
+version: 0.9
+author_link: https://alfasado.net/
 author_name: Alfasado Inc.
 config_uri: https://raw.github.com/alfasado/mt-plugin-admin-screen-replace-link/master/plugins/AdminScreenReplaceLink/config.yaml
 archive_uri: https://github.com/alfasado/mt-plugin-admin-screen-replace-link/archive/master.zip
@@ -13,6 +13,8 @@ blog_config_template: config.tmpl
 callbacks:
     MT::App::CMS::template_source.footer: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_footer
     MT::App::CMS::template_param.asset_list: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_list
+    MT::App::CMS::template_param.async_asset_list: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_list
+    MT::App::CMS::template_output.async_asset_upload: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_upload
     MT::App::CMS::template_param.preview_strip: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_preview_strip
     MT::App::CMS::template_param.preview_template_strip: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_preview_strip
     cms_filtered_list_param.entry: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_list_entry
