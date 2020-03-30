@@ -2,6 +2,8 @@ package AdminScreenReplaceLink::Plugin;
 use strict;
 use warnings;
 
+use MT::Util qw( encode_js );
+
 sub _cms_filtered_list_param {
     my ( $cb, $app, $res, $objs ) = @_;
     my $objects = $res->{ objects };
@@ -78,6 +80,35 @@ sub _asset_list {
         push ( @new_loop, $obj );
     }
     $param->{ object_loop } = \@new_loop;
+}
+
+sub _asset_insert_param {
+#base of CustomFields::App::CMS::asset_insert_param
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    my ( $search, $replace ) = __get_config( $app );
+    if ( (! $search ) || (! $replace ) ) {
+        return;
+    }
+    return 1 unless $app->param('edit_field') =~ /customfield/;
+
+    my $block = $tmpl->getElementById('insert_script');
+    return 1 unless $block;
+    my $preview_html = '';
+    my $ctx          = $tmpl->context;
+    if ( my $assets = $ctx->stash('assets') ) {
+        $ctx->stash( 'asset', $assets->[0] );
+    }
+
+    if ( my $asset = $ctx->stash('asset') ) {
+        if ( $asset->class_type eq 'image' ) {
+            my $view = encode_js( $app->translate("View image") );
+            $preview_html
+                = qq{<a href="<mt:asseturl replace="$search","$replace">" target="_blank" title="$view"><img src="<mt:assetthumbnailurl replace="$search","$replace" width="240" height="240">" alt="" /></a>};
+        }
+    }
+    $block->innerHTML(
+        qq{top.insertCustomFieldAsset('<mt:var name="upload_html" escape="js">', '<mt:var name="edit_field" escape="js">', '$preview_html') }
+    );
 }
 
 sub _asset_upload {
