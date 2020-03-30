@@ -12,6 +12,9 @@ config_template: config.tmpl
 blog_config_template: config.tmpl
 callbacks:
     MT::App::CMS::template_source.footer: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_footer
+    MT::App::CMS::template_param.asset_insert:
+        - handler: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_insert_param
+          priority: 8
     MT::App::CMS::template_param.asset_list: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_list
     MT::App::CMS::template_param.async_asset_list: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_list
     MT::App::CMS::template_output.async_asset_upload: $adminscreenreplacelink::AdminScreenReplaceLink::Plugin::_asset_upload
