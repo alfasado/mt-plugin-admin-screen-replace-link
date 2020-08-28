@@ -213,6 +213,7 @@ sub __get_config {
     my ( $app, $blog_id ) = @_;
     my $plugin = MT->component( 'AdminScreenReplaceLink' );
     my ( $search, $replace );
+    my $use_servername = 0;
     my $blog;
     if ( $blog_id ) {
         $blog = MT::Blog->load( $blog_id );
@@ -224,16 +225,22 @@ sub __get_config {
     if ( $blog ) {
         $search  = $plugin->get_config_value( 'adminscreenreplacelink_search', 'blog:' . $blog->id );
         $replace = $plugin->get_config_value( 'adminscreenreplacelink_replace', 'blog:' . $blog->id );
+        $use_servername = $plugin->get_config_value( 'adminscreenreplacelink_use_servername', 'blog:' . $blog->id );
         if ( (! $search ) && (! $replace ) ) {
             if ( $blog->class eq 'blog' ) {
                 $search  = $plugin->get_config_value( 'adminscreenreplacelink_search', 'blog:' . $blog->parent_id );
                 $replace = $plugin->get_config_value( 'adminscreenreplacelink_replace', 'blog:' . $blog->parent_id );
+                $use_servername = $plugin->get_config_value( 'adminscreenreplacelink_use_servername', 'blog:' . $blog->parent_id );
             }
         }
     }
     if ( (! $search ) && (! $replace ) ) {
         $search  = $plugin->get_config_value( 'adminscreenreplacelink_search' );
         $replace = $plugin->get_config_value( 'adminscreenreplacelink_replace' );
+        $use_servername = $plugin->get_config_value( 'adminscreenreplacelink_use_servername' );
+    }
+    if ( $use_servername ) {
+        $replace = $ENV{'SERVER_NAME'};
     }
     return ( $search, $replace );
 }

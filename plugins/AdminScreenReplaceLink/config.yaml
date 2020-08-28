@@ -29,3 +29,4 @@ callbacks:
 settings:
     adminscreenreplacelink_search:
     adminscreenreplacelink_replace:
+    adminscreenreplacelink_use_servername:
